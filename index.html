@@ -101,7 +101,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/反编译-apktool-jad-dex2jar/" style="font-size: 10px;">反编译 apktool jad dex2jar</a> <a href="/tags/开发中的坑/" style="font-size: 10px;">开发中的坑</a>
+						<a href="/tags/apktool/" style="font-size: 10px;">apktool</a> <a href="/tags/dex2jar/" style="font-size: 10px;">dex2jar</a> <a href="/tags/jad/" style="font-size: 10px;">jad</a> <a href="/tags/反编译/" style="font-size: 10px;">反编译</a> <a href="/tags/开发中的坑/" style="font-size: 10px;">开发中的坑</a>
 					</div>
 				</section>
 				
@@ -159,10 +159,10 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-Android反编译工具-md" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Android反编译工具" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2015/10/02/Android反编译工具-md/" class="article-date">
+      <a href="/2015/10/02/Android反编译工具/" class="article-date">
   	<time datetime="2015-10-02T01:58:36.000Z" itemprop="datePublished">2015-10-02</time>
 </a>
     </div>
@@ -176,7 +176,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/10/02/Android反编译工具-md/">Android反编译工具.md</a>
+      <a class="article-title" href="/2015/10/02/Android反编译工具/">Android反编译工具</a>
     </h1>
   
 
@@ -187,20 +187,20 @@
       
         <h2 id="前言">前言</h2><p>最近买了人生第一台属于自己的macbook(终于可以愉快地丢掉公司的祖传老本了~) 然后在迁移资料的过程中，发现以前用shell写的反编译脚本简直惨不忍睹…于是重新复习了常用的反编译工具，并改用python来编写反编译脚本，以便于以后使用。</p>
 <h2 id="反编译工具介绍">反编译工具介绍</h2><p>Android的反编译工具主要有这么几个：</p>
-<p>####apktool<br>可以反编译资源文件(resources.arsc、9.png、and XMLs)，可以将dex反编译成smali、可以回编译。汉化apk的时候，用这个工具基本就够了</p>
+<p><strong>Apktool</strong><br>可以反编译资源文件(resources.arsc、9.png、and XMLs)，可以将dex反编译成smali、可以回编译。汉化apk的时候，用这个工具基本就够了</p>
 <blockquote>
 <p>项目地址：<a href="http://ibotpeaches.github.io/Apktool/" target="_blank" rel="external">http://ibotpeaches.github.io/Apktool/</a>  </p>
 </blockquote>
-<p>####dex2jar<br>可以将dex转为jar包(里面包含了class文件)。这个工具一般配合<code>Jad</code>或者<code>JD-GUI</code>使用。<br>最新版的工具可以直接将apk转化为jar包，而不需要自己解压apk拿出dex文件。</p>
+<p><strong>Dex2jar</strong><br>可以将dex转为jar包(里面包含了class文件)。这个工具一般配合<code>Jad</code>或者<code>JD-GUI</code>使用。<br>最新版的工具可以直接将apk转化为jar包，而不需要自己解压apk拿出dex文件。</p>
 <blockquote>
 <p>项目地址：<a href="https://github.com/pxb1988/dex2jar" target="_blank" rel="external">https://github.com/pxb1988/dex2jar</a></p>
 </blockquote>
-<p>####Jad和JD-GUI<br>Jad可以将class文件转换为java文件。而JD-GUI是基于Jad实现的一个可视化工具，直接打开jar包就可以查看java源码了，很方便。</p>
+<p><strong>Jad和JD-GUI</strong><br>Jad可以将class文件转换为java文件。而JD-GUI是基于Jad实现的一个可视化工具，直接打开jar包就可以查看java源码了，很方便。</p>
 <blockquote>
 <p>此项目已经停更了，而且官方地址也不见了<br>非官方地址：<a href="http://varaneckas.com/jad/" target="_blank" rel="external">http://varaneckas.com/jad/</a></p>
 </blockquote>
 <p>至于具体的用法，各位看官请自行Google…</p>
-<h2 id="一个易用的反编译小脚本">一个易用的反编译小脚本</h2><p>国庆假期闲来无事，用python重新写了个反编译脚本。该脚本集成了上述的工具，亮点是不需要配环境（Mac OS X 已经集成了python环境啦~）使用起来也很简单~  </p>
+<h2 id="一个易用的反编译小脚本">一个易用的反编译小脚本</h2><p>国庆假期闲来无事，用python重新写了个反编译脚本。该脚本集成了上述的工具，亮点是不需要配环境，使用起来也很简单~（Mac OS X可以直接运行）  </p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python easy-android-decompiler/decompile.py test.apk</span><br></pre></td></tr></table></figure>
 <p>如果设置一下alias就更方便了，比如我的 <code>~/.zshrc</code>是这样写的：  </p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alias decompile=&#34;python /Users/Andy/Dev/tools/easy-android-decompiler/decompile.py&#34;</span><br></pre></td></tr></table></figure>
@@ -216,7 +216,7 @@
       
       
 	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/反编译-apktool-jad-dex2jar/">反编译 apktool jad dex2jar</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/apktool/">apktool</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dex2jar/">dex2jar</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jad/">jad</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/反编译/">反编译</a></li></ul>
 	</div>
 
       
