@@ -15,7 +15,7 @@ Apktool可以反编译资源文件(resources.arsc、9.png、and XMLs)，">
 <meta property="og:description" content="前言最近买了人生第一台属于自己的macbook(终于可以愉快地丢掉公司的祖传老本了~) 然后在迁移资料的过程中，发现以前用shell写的反编译脚本简直惨不忍睹…于是重新复习了常用的反编译工具，并改用python来编写反编译脚本，以便于以后使用。
 反编译工具介绍Android的反编译工具主要有这么几个：
 Apktool可以反编译资源文件(resources.arsc、9.png、and XMLs)，">
-<meta property="og:updated_time" content="2015-10-02T15:46:55.000Z">
+<meta property="og:updated_time" content="2015-10-03T08:58:05.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android反编译工具">
 <meta name="twitter:description" content="前言最近买了人生第一台属于自己的macbook(终于可以愉快地丢掉公司的祖传老本了~) 然后在迁移资料的过程中，发现以前用shell写的反编译脚本简直惨不忍睹…于是重新复习了常用的反编译工具，并改用python来编写反编译脚本，以便于以后使用。
@@ -207,16 +207,28 @@ Apktool可以反编译资源文件(resources.arsc、9.png、and XMLs)，">
 <blockquote>
 <p>项目地址：<a href="http://ibotpeaches.github.io/Apktool/" target="_blank" rel="external">http://ibotpeaches.github.io/Apktool/</a>  </p>
 </blockquote>
-<p><strong>Dex2jar</strong><br>可以将dex转为jar包(里面包含了class文件)。这个工具一般配合<code>Jad</code>或者<code>JD-GUI</code>使用。<br>最新版的工具可以直接将apk转化为jar包，而不需要自己解压apk拿出dex文件。</p>
+<p><strong>Dex2jar</strong><br>可以将dex转为jar包(里面包含了class文件)。这个工具可以配合<code>Jad</code>、<code>JD-GUI</code>或者 <code>Procyon Java Decompiler</code>使用。<br>最新版的工具可以直接将apk转化为jar包，而不需要自己解压apk拿出dex文件。</p>
 <blockquote>
 <p>项目地址：<a href="https://github.com/pxb1988/dex2jar" target="_blank" rel="external">https://github.com/pxb1988/dex2jar</a></p>
 </blockquote>
-<p><strong>Jad和JD-GUI</strong><br>Jad可以将class文件转换为java文件。而JD-GUI是基于Jad实现的一个可视化工具，直接打开jar包就可以查看java源码了，很方便。</p>
+<p><strong>Jad</strong><br>可以将class文件转换为java文件。不支持Java 5+的语言特性。很古老的一个工具了，目前该项目已经停更了，而且官方地址也不见了。  </p>
 <blockquote>
-<p>此项目已经停更了，而且官方地址也不见了<br>非官方地址：<a href="http://varaneckas.com/jad/" target="_blank" rel="external">http://varaneckas.com/jad/</a></p>
+<p>非官方地址：<a href="http://varaneckas.com/jad/" target="_blank" rel="external">http://varaneckas.com/jad/</a></p>
+</blockquote>
+<p><strong>JD-GUI</strong><br>直接打开jar包就可以查看java源码的可视化工具，很方便</p>
+<blockquote>
+<p><a href="http://jd.benow.ca" target="_blank" rel="external">http://jd.benow.ca</a></p>
+</blockquote>
+<p><strong>Procyon Java Decompiler</strong><br>可以直接将jar包转换为java源码的工具。支持Java 5+的语言特性（比如枚举、String类型的switch语句、注解、lambdas等等）</p>
+<blockquote>
+<p>项目地址：<a href="https://bitbucket.org/mstrobel/procyon/wiki/Java%20Decompiler" target="_blank" rel="external">https://bitbucket.org/mstrobel/procyon/wiki/Java%20Decompiler</a><br>下载页面：<a href="https://bitbucket.org/mstrobel/procyon/downloads" target="_blank" rel="external">https://bitbucket.org/mstrobel/procyon/downloads</a></p>
+</blockquote>
+<p><strong>其他</strong><br>还有其他优秀的反编译工具，因为我没用过所以这里就不阐述啦~ 想了解的话，可以去这个网站看看：  </p>
+<blockquote>
+<p><a href="http://www.javadecompilers.com" target="_blank" rel="external">http://www.javadecompilers.com</a>  </p>
 </blockquote>
 <p>至于具体的用法，各位看官请自行Google…</p>
-<h2 id="一个易用的反编译小脚本">一个易用的反编译小脚本</h2><p>国庆假期闲来无事，用python重新写了个反编译脚本。该脚本集成了上述的工具，亮点是不需要配环境，使用起来也很简单~（Mac OS X可以直接运行）  </p>
+<h2 id="一个易用的反编译小脚本">一个易用的反编译小脚本</h2><p>国庆假期闲来无事，用python重新写了个反编译脚本。该脚本集成了上述的一些工具，亮点是不需要配环境，使用起来也很简单~（Mac OS X可以直接运行）  </p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python easy-android-decompiler/decompile.py test.apk</span><br></pre></td></tr></table></figure>
 <p>如果设置一下alias就更方便了，比如我的 <code>~/.zshrc</code>是这样写的：  </p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alias decompile=&#34;python /Users/Andy/Dev/tools/easy-android-decompiler/decompile.py&#34;</span><br></pre></td></tr></table></figure>
