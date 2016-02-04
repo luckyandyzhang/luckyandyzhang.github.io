@@ -3,17 +3,30 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Andy&#39;s Blog</title>
+  <title>Android开发中一些被冷落但却很有用的类和方法 | Andy&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Andy's Blog">
-<meta property="og:url" content="http://luckyandyzhang.github.io/index.html">
+  <meta name="description" content="MediaMetadataRetriever顾名思义，就是用来获取媒体文件一些相关信息的类。包括一首歌的标题，作者，专辑封面和名称，时长，比特率等等。如果是视频的话，可以获取视频的长宽，预览图。
+
+http://developer.android.com/intl/zh-cn/reference/android/media/MediaMetadataRetriever.html
+
+TouchDel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android开发中一些被冷落但却很有用的类和方法">
+<meta property="og:url" content="http://luckyandyzhang.github.io/2016/02/04/Android开发中一些被冷落但却很有用的类和方法/index.html">
 <meta property="og:site_name" content="Andy's Blog">
-<meta property="og:description">
+<meta property="og:description" content="MediaMetadataRetriever顾名思义，就是用来获取媒体文件一些相关信息的类。包括一首歌的标题，作者，专辑封面和名称，时长，比特率等等。如果是视频的话，可以获取视频的长宽，预览图。
+
+http://developer.android.com/intl/zh-cn/reference/android/media/MediaMetadataRetriever.html
+
+TouchDel">
+<meta property="og:updated_time" content="2016-02-04T09:33:41.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Andy's Blog">
-<meta name="twitter:description">
+<meta name="twitter:title" content="Android开发中一些被冷落但却很有用的类和方法">
+<meta name="twitter:description" content="MediaMetadataRetriever顾名思义，就是用来获取媒体文件一些相关信息的类。包括一首歌的标题，作者，专辑封面和名称，时长，比特率等等。如果是视频的话，可以获取视频的长宽，预览图。
+
+http://developer.android.com/intl/zh-cn/reference/android/media/MediaMetadataRetriever.html
+
+TouchDel">
   
     <link rel="alternative" href="/atom.xml" title="Andy&#39;s Blog" type="application/atom+xml">
   
@@ -157,9 +170,7 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap">
-  
-    <article id="post-Android开发中一些被冷落但却很有用的类和方法" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Android开发中一些被冷落但却很有用的类和方法" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
       <a href="/2016/02/04/Android开发中一些被冷落但却很有用的类和方法/" class="article-date">
@@ -175,12 +186,23 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/02/04/Android开发中一些被冷落但却很有用的类和方法/">Android开发中一些被冷落但却很有用的类和方法</a>
+    <h1 class="article-title" itemprop="name">
+      Android开发中一些被冷落但却很有用的类和方法
     </h1>
   
 
       </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开发小技巧/">开发小技巧</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
       
     
     <div class="article-entry" itemprop="articleBody">
@@ -260,231 +282,47 @@
       
     </div>
     
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开发小技巧/">开发小技巧</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/10/02/Android反编译工具/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android反编译工具</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
   
 </article>
 
 
 
 
-
-
-
-  
-    <article id="post-Android反编译工具" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/10/02/Android反编译工具/" class="article-date">
-  	<time datetime="2015-10-02T01:58:36.000Z" itemprop="datePublished">2015-10-02</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/10/02/Android反编译工具/">Android反编译工具</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前言">前言</h2><p>最近买了人生第一台属于自己的macbook(终于可以愉快地丢掉公司的祖传老本了~) 然后在迁移资料的过程中，发现以前用shell写的反编译脚本简直惨不忍睹…于是重新复习了常用的反编译工具，并改用python来编写反编译脚本，以便于以后使用。</p>
-<h2 id="反编译工具介绍">反编译工具介绍</h2><p>Android的反编译工具主要有这么几个：</p>
-<p><strong>Apktool</strong><br>可以反编译资源文件(resources.arsc、9.png、and XMLs)，可以将dex反编译成smali、可以回编译。汉化apk的时候，用这个工具基本就够了</p>
-<blockquote>
-<p>项目地址：<a href="http://ibotpeaches.github.io/Apktool/" target="_blank" rel="external">http://ibotpeaches.github.io/Apktool/</a>  </p>
-</blockquote>
-<p><strong>Dex2jar</strong><br>可以将dex转为jar包(里面包含了class文件)。这个工具可以配合<code>Jad</code>、<code>JD-GUI</code>或者 <code>Procyon Java Decompiler</code>使用。<br>最新版的工具可以直接将apk转化为jar包，而不需要自己解压apk拿出dex文件。</p>
-<blockquote>
-<p>项目地址：<a href="https://github.com/pxb1988/dex2jar" target="_blank" rel="external">https://github.com/pxb1988/dex2jar</a></p>
-</blockquote>
-<p><strong>Jad</strong><br>可以将class文件转换为java文件。不支持Java 5+的语言特性。很古老的一个工具了，目前该项目已经停更了，而且官方地址也不见了。  </p>
-<blockquote>
-<p>非官方地址：<a href="http://varaneckas.com/jad/" target="_blank" rel="external">http://varaneckas.com/jad/</a></p>
-</blockquote>
-<p><strong>JD-GUI</strong><br>直接打开jar包就可以查看java源码的可视化工具，很方便</p>
-<blockquote>
-<p><a href="http://jd.benow.ca" target="_blank" rel="external">http://jd.benow.ca</a></p>
-</blockquote>
-<p><strong>Procyon Java Decompiler</strong><br>可以直接将jar包转换为java源码的工具。支持Java 5+的语言特性（比如枚举、String类型的switch语句、注解、lambdas等等）</p>
-<blockquote>
-<p>项目地址：<a href="https://bitbucket.org/mstrobel/procyon/wiki/Java%20Decompiler" target="_blank" rel="external">https://bitbucket.org/mstrobel/procyon/wiki/Java%20Decompiler</a><br>下载页面：<a href="https://bitbucket.org/mstrobel/procyon/downloads" target="_blank" rel="external">https://bitbucket.org/mstrobel/procyon/downloads</a></p>
-</blockquote>
-<p><strong>其他</strong><br>还有其他优秀的反编译工具，因为我没用过所以这里就不阐述啦~ 想了解的话，可以去这个网站看看：  </p>
-<blockquote>
-<p><a href="http://www.javadecompilers.com" target="_blank" rel="external">http://www.javadecompilers.com</a>  </p>
-</blockquote>
-<p>至于具体的用法，各位看官请自行Google…</p>
-<h2 id="一个易用的反编译小脚本">一个易用的反编译小脚本</h2><p>国庆假期闲来无事，用python重新写了个反编译脚本。该脚本集成了上述的一些工具，亮点是不需要配环境，使用起来也很简单~（Mac OS X可以直接运行）  </p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python easy-android-decompiler/decompile.py test.apk</span><br></pre></td></tr></table></figure>
-<p>如果设置一下alias就更方便了，比如我的 <code>~/.zshrc</code>是这样写的：  </p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alias decompile=&#34;python /Users/Andy/Dev/tools/easy-android-decompiler/decompile.py&#34;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>项目地址：<a href="https://github.com/luckyandyzhang/easy-android-decompiler" target="_blank" rel="external">https://github.com/luckyandyzhang/easy-android-decompiler</a></p>
-</blockquote>
-<p>嗯。推销完毕~ 逃~</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/apktool/">apktool</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dex2jar/">dex2jar</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/jad/">jad</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/反编译/">反编译</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Android开发中一些被冷落但却很有用的类和方法" data-title="Android开发中一些被冷落但却很有用的类和方法" data-url="http://luckyandyzhang.github.io/2016/02/04/Android开发中一些被冷落但却很有用的类和方法/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"luckyandyzhang"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
 
 
 
 
-
-
-
-  
-    <article id="post-getDimension方法的一些坑" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2015/09/25/getDimension方法的一些坑/" class="article-date">
-  	<time datetime="2015-09-25T10:08:04.000Z" itemprop="datePublished">2015-09-25</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/25/getDimension方法的一些坑/">getDimension方法的一些坑</a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="问题背景">问题背景</h2><p>在Android开发中，我们经常会在<code>dimens.xml</code>中定义一些值，比如边距，字体大小等</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="title">resources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">dimen</span> <span class="attribute">name</span>=<span class="value">"item_padding"</span>&gt;</span>16dp<span class="tag">&lt;/<span class="title">dimen</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>然后我们会在代码中获取该值</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">float</span> itemPadding = getResources().getDimension(R.dimen.item_padding);</span><br></pre></td></tr></table></figure>
-<p>你会发现获取到<code>itemPadding</code>的值并不一定是16。<br>比如我这里获得的值却是32（我所调试的手机屏幕属于xhdpi）  </p>
-<p>那么这个值究竟是怎么算的呢？我们先来看个表：</p>
-<table>
-<thead>
-<tr>
-<th>dpi</th>
-<th>分辨率</th>
-<th>倍数</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>mdpi</td>
-<td>160dpi</td>
-<td>1X</td>
-</tr>
-<tr>
-<td>hdpi</td>
-<td>240dpi</td>
-<td>1.5X</td>
-</tr>
-<tr>
-<td>xhdpi</td>
-<td>320dpi</td>
-<td>2X</td>
-</tr>
-<tr>
-<td>xxhdpi</td>
-<td>480dpi</td>
-<td>3X</td>
-</tr>
-<tr>
-<td>xxxhdpi</td>
-<td>640dpi</td>
-<td>4X</td>
-</tr>
-</tbody>
-</table>
-<p>“我裤子都脱了，你就给我看这个？”<br>莫慌，答案在下面。</p>
-<blockquote>
-<p>其实<code>getDimension()</code>这个方法会将原有的值以px为单位进行转换，由于我的手机是xhdpi的，转换为px是2倍的关系，最终获得的值就是32</p>
-</blockquote>
-<h2 id="扩展">扩展</h2><p>在自定义View的时候，为了方便开发者可以在xml中设置一些属性，我们通常会在<code>attr.xml</code>声明我们自己的属性</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="pi">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="title">resources</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="title">declare-styleable</span> <span class="attribute">name</span>=<span class="value">"Gauge"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="title">attr</span> <span class="attribute">name</span>=<span class="value">"gaugeInnerPadding"</span> <span class="attribute">format</span>=<span class="value">"dimension"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="title">declare-styleable</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="title">resources</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>然后在代码中获取</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.Gauge, defStyle, <span class="number">0</span>);</span><br><span class="line"><span class="keyword">float</span> mGaugeInnerPadding = attributes.getDimension(R.styleable.Gauge_gaugeInnerPadding, <span class="number">10f</span>);</span><br><span class="line">attributes.recycle();</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>此时需要注意的是，假如我们在xml中已经设置了<code>gaugeInnerPadding</code>的值（比如12dp），那么根据上面的知识，我们知道，最终获取到的值是转化为px的。但是，如果我们没有在xml中设置<code>gaugeInnerPadding</code>，那么获取到的是默认值<code>10f</code>,是不会转换为px的。这里需要注意一下。</p>
-</blockquote>
-<p>如果我们希望默认值<code>10f</code>也能转换为px，该怎么办呢？<br>so easy ~</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mGaugeInnerPadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, <span class="number">10f</span>, displayMetrics);</span><br></pre></td></tr></table></figure>
-<p>我稍微解释一下。上面那句代码表示的是，将<code>10f</code>当做是以dip为单位的（也就是<code>10dp</code>），然后根据当前屏幕的dpi，将该值转换为以px为单位的。</p>
-<p>第一篇博客就这样愉快的结束了…  </p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开发中的坑/">开发中的坑</a></li></ul>
-	</div>
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-  
 </div>
       <footer id="footer">
   <div class="outer">
@@ -508,8 +346,8 @@
 		fancybox: true,
 		mathjax: true,
 		animate: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
