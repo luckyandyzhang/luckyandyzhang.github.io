@@ -17,7 +17,7 @@
 123&amp;lt;resources&amp;gt;    &amp;lt;dimen name=&quot;item_padding&quot;&amp;gt;16dp&amp;lt;/dimen&amp;gt;&amp;lt;/resources&amp;gt;
 然后我们会在代码中获取该值
 1float itemPadding = getResources().getDim">
-<meta property="og:updated_time" content="2015-10-02T15:41:03.000Z">
+<meta property="og:updated_time" content="2016-02-05T04:01:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="getDimension方法的一些坑">
 <meta name="twitter:description" content="问题背景在Android开发中，我们经常会在dimens.xml中定义一些值，比如边距，字体大小等
@@ -209,6 +209,7 @@
 <p>然后我们会在代码中获取该值</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">float</span> itemPadding = getResources().getDimension(R.dimen.item_padding);</span><br></pre></td></tr></table></figure>
 <p>你会发现获取到<code>itemPadding</code>的值并不一定是16。<br>比如我这里获得的值却是32（我所调试的手机屏幕属于xhdpi）  </p>
+<a id="more"></a>
 <p>那么这个值究竟是怎么算的呢？我们先来看个表：</p>
 <table>
 <thead>
