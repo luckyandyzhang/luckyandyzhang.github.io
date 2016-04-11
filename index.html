@@ -101,7 +101,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/apktool/" style="font-size: 10px;">apktool</a> <a href="/tags/dex2jar/" style="font-size: 10px;">dex2jar</a> <a href="/tags/jad/" style="font-size: 10px;">jad</a> <a href="/tags/反编译/" style="font-size: 10px;">反编译</a> <a href="/tags/开发中的坑/" style="font-size: 10px;">开发中的坑</a> <a href="/tags/开发小技巧/" style="font-size: 10px;">开发小技巧</a>
+						<a href="/tags/apktool/" style="font-size: 10px;">apktool</a> <a href="/tags/dex2jar/" style="font-size: 10px;">dex2jar</a> <a href="/tags/jad/" style="font-size: 10px;">jad</a> <a href="/tags/反编译/" style="font-size: 10px;">反编译</a> <a href="/tags/开发中的坑/" style="font-size: 10px;">开发中的坑</a> <a href="/tags/开发小技巧/" style="font-size: 20px;">开发小技巧</a>
 					</div>
 				</section>
 				
@@ -159,6 +159,77 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Android开发中一些被冷落但却很有用的类和方法(二)" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/04/11/Android开发中一些被冷落但却很有用的类和方法(二)/" class="article-date">
+  	<time datetime="2016-04-11T13:30:28.000Z" itemprop="datePublished">2016-04-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/04/11/Android开发中一些被冷落但却很有用的类和方法(二)/">Android开发中一些被冷落但却很有用的类和方法(二)</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="DrawableCompat-setTint">DrawableCompat.setTint</h4><p>位于support-v4包中，可以轻易地实现给Drawable着色。轻松实现类似网易云音乐自定义主题时，icon也会变色的效果。</p>
+<blockquote>
+<p><a href="http://developer.android.com/intl/zh-cn/reference/android/support/v4/graphics/drawable/DrawableCompat.html#setTint(android.graphics.drawable.Drawable,%20int)">http://developer.android.com/intl/zh-cn/reference/android/support/v4/graphics/drawable/DrawableCompat.html#setTint(android.graphics.drawable.Drawable,%20int)</a>  </p>
+<p><a href="http://www.race604.com/tint-drawable/">http://www.race604.com/tint-drawable/</a></p>
+</blockquote>
+<h4 id="ItemTouchHelper">ItemTouchHelper</h4><p>用来实现RecyclerView滑动删除，拖动排序等效果的工具类，重要的是，实现起来超级简单啊！可以不用引入开源库啦~</p>
+<blockquote>
+<p><a href="http://developer.android.com/intl/zh-cn/reference/android/support/v7/widget/helper/ItemTouchHelper.html">http://developer.android.com/intl/zh-cn/reference/android/support/v7/widget/helper/ItemTouchHelper.html</a></p>
+<p><a href="http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0630/3123.html">http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0630/3123.html</a></p>
+</blockquote>
+<h4 id="SortedList">SortedList</h4><p>排序列表，support-v7引入的一个新的数据结构。配合RecyclerView使用，可以轻松地对Adapter的数据进行排序，并且在数据变化时（添加,删除,移动,改变)提供相应的动画效果。</p>
+<blockquote>
+<p><a href="http://developer.android.com/intl/zh-cn/reference/android/support/v7/util/SortedList.html?utm_campaign=ASL221-415&amp;utm_source=dac&amp;utm_medium=blog">http://developer.android.com/intl/zh-cn/reference/android/support/v7/util/SortedList.html?utm_campaign=ASL221-415&amp;utm_source=dac&amp;utm_medium=blog</a></p>
+</blockquote>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开发小技巧/">开发小技巧</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/04/11/Android开发中一些被冷落但却很有用的类和方法(二)/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-Android开发中一些被冷落但却很有用的类和方法" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -185,7 +256,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="MediaMetadataRetriever">MediaMetadataRetriever</h3><p>顾名思义，就是用来获取媒体文件一些相关信息的类。包括一首歌的标题，作者，专辑封面和名称，时长，比特率等等。如果是视频的话，可以获取视频的长宽，预览图。</p>
+        <h4 id="MediaMetadataRetriever">MediaMetadataRetriever</h4><p>顾名思义，就是用来获取媒体文件一些相关信息的类。包括一首歌的标题，作者，专辑封面和名称，时长，比特率等等。如果是视频的话，可以获取视频的长宽，预览图。</p>
 <blockquote>
 <p><a href="http://developer.android.com/intl/zh-cn/reference/android/media/MediaMetadataRetriever.html">http://developer.android.com/intl/zh-cn/reference/android/media/MediaMetadataRetriever.html</a></p>
 </blockquote>
