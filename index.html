@@ -101,7 +101,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/apktool/" style="font-size: 10px;">apktool</a> <a href="/tags/dex2jar/" style="font-size: 10px;">dex2jar</a> <a href="/tags/jad/" style="font-size: 10px;">jad</a> <a href="/tags/反编译/" style="font-size: 10px;">反编译</a> <a href="/tags/开发中的坑/" style="font-size: 10px;">开发中的坑</a> <a href="/tags/开发小技巧/" style="font-size: 20px;">开发小技巧</a>
+						<a href="/tags/apktool/" style="font-size: 10px;">apktool</a> <a href="/tags/dex2jar/" style="font-size: 10px;">dex2jar</a> <a href="/tags/jad/" style="font-size: 10px;">jad</a> <a href="/tags/反编译/" style="font-size: 10px;">反编译</a> <a href="/tags/开发中的坑/" style="font-size: 10px;">开发中的坑</a> <a href="/tags/开发小技巧/" style="font-size: 20px;">开发小技巧</a> <a href="/tags/开发笔记/" style="font-size: 10px;">开发笔记</a>
 					</div>
 				</section>
 				
@@ -158,6 +158,71 @@
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-android-notes-1" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/05/07/android-notes-1/" class="article-date">
+  	<time datetime="2016-05-07T14:10:37.000Z" itemprop="datePublished">2016-05-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/07/android-notes-1/">Token的过期处理以及不同API环境的切换技巧</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言">前言</h2><p>前阵子在做公司项目的时候遇到两个问题，一个是关于token过期的问题，另一个是关于生产环境API和测试环境API切换的问题。这篇文章就来讲讲这两个问题吧。</p>
+<h2 id="Token过期问题">Token过期问题</h2><p>一般来说，一个应用在用户登录之后，会保存好token和refresh token等相关信息，以便于接下来的API请求，那么这里就涉及到token有效期的问题。假设token有效期是3天，在每次打开APP的时候，会本地判断token是否过期，如果没过期就直接进入，过期的话就通过refresh token换取新的token。正常流程大概是这样，但是我们要到考虑其他的情况：</p>
+<ol>
+<li>在保存token之后，手机的时间被用户调整过。  </li>
+<li>token过期后，在用refresh token换取新token的时候出现网络故障。  </li>
+<li>本地判断token有效，进入APP一段时间后，token过期。</li>
+</ol>
+<p>第一种情况好办，反正是token过期，用refresh token重新刷新就行了，如果由于网络故障刷新失败，则变为第二种情况。<br>第二种情况，假如出现网络问题，token刷新失败，那么这时候该如何处理呢？弹出一个页面，提示网络失败，然后让用户点击一个按钮重试？这种做法好像可行，但是却影响了用户体验，假如一个APP里面有些功能模块是不需要用户身份凭证的或者网络的，那么凭什么不让用户进去操作呢？<br>第三种情况，如果token过期了，此时进行需要token的API请求怎么办？刷新一下token再继续之前的请求？嗯，思路是这样没错，但是怎么实现呢？（回调地狱仿佛在向你招手…）</p>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/开发笔记/">开发笔记</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2016/05/07/android-notes-1/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
   
     <article id="post-android-tips-2" class="article article-type-post" itemscope itemprop="blogPost">
   
