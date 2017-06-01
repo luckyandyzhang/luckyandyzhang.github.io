@@ -238,6 +238,121 @@
             
               
                 
+                <a class="post-title-link" href="/2017/05/31/trap-of-android-aidl/" itemprop="url">
+                  一场由Parcelable引发的血案
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-05-31T16:57:20+08:00" content="2017-05-31">
+              2017-05-31
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/05/31/trap-of-android-aidl/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/31/trap-of-android-aidl/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="问题背景">问题背景</h2><p>前阵子接手了直播模块，有个需求需要在已有的AIDL接口中增加多一个int类型的参数B。由于该AIDL接口中已经有了一个自定义类型的参数A(已经实现Parcelable接口)，我便将参数B追加到A的后面。嗯，炒鸡简单的，只是运行之后有问题而已(微笑脸) </p>
+<p>有一个诡异的问题：<b>无论B传入什么值，另一方接收到都始终为0(int的默认值)，而A接收到的值却是正确的？！</b></p>
+<p>Take it easy! 作为共产主义的接班人，我当然是有办法的啦：</p>
+<ol>
+<li>怀疑是 <a href="https://github.com/alibaba/freeline">Freeline</a> 不支持AIDL，改用AS重新build，问题依旧</li>
+<li>怀疑是辣鸡AS的问题，重新启动再build，问题依旧</li>
+<li>怀疑是工具链的版本问题，改为最新版本再次编译，问题依旧</li>
+<li>怀疑是int的问题？将B改为float, boolean等其他的基本类型，问题依旧，取到的始终是默认值</li>
+<li>抱着希望在StackOverflow和Google上逛了一圈，无果</li>
+<li>求助群里的小伙伴，答曰没有遇到过此情况，并向我丢了一连窜的「233333」和一波表情  </li>
+<li><del>辞职</del></li>
+</ol>
+<p>就在我一筹莫展的时候，突然脑子一抽，试着把接口定义中A参数和B参数位置调换。震惊地发现，居然可以了！！ </p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/05/31/trap-of-android-aidl/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/05/07/android-notes-1/" itemprop="url">
                   Token的过期处理以及不同API环境的切换技巧
                 </a>
@@ -813,7 +928,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -823,7 +938,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

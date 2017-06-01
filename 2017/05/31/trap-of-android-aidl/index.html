@@ -1,0 +1,651 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="AIDL,开发中的坑," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="问题背景前阵子接手了直播模块，有个需求需要在已有的AIDL接口中增加多一个int类型的参数B。由于该AIDL接口中已经有了一个自定义类型的参数A(已经实现Parcelable接口)，我便将参数B追加到A的后面。嗯，炒鸡简单的，只是运行之后有问题而已(微笑脸) 
+有一个诡异的问题：无论B传入什么值，另一方接收到都始终为0(int的默认值)，而A接收到的值却是正确的？！
+Take it easy! 作">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一场由Parcelable引发的血案">
+<meta property="og:url" content="http://luckyandyzhang.github.io/2017/05/31/trap-of-android-aidl/index.html">
+<meta property="og:site_name" content="Andy's Blog">
+<meta property="og:description" content="问题背景前阵子接手了直播模块，有个需求需要在已有的AIDL接口中增加多一个int类型的参数B。由于该AIDL接口中已经有了一个自定义类型的参数A(已经实现Parcelable接口)，我便将参数B追加到A的后面。嗯，炒鸡简单的，只是运行之后有问题而已(微笑脸) 
+有一个诡异的问题：无论B传入什么值，另一方接收到都始终为0(int的默认值)，而A接收到的值却是正确的？！
+Take it easy! 作">
+<meta property="og:updated_time" content="2017-06-01T05:27:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一场由Parcelable引发的血案">
+<meta name="twitter:description" content="问题背景前阵子接手了直播模块，有个需求需要在已有的AIDL接口中增加多一个int类型的参数B。由于该AIDL接口中已经有了一个自定义类型的参数A(已经实现Parcelable接口)，我便将参数B追加到A的后面。嗯，炒鸡简单的，只是运行之后有问题而已(微笑脸) 
+有一个诡异的问题：无论B传入什么值，另一方接收到都始终为0(int的默认值)，而A接收到的值却是正确的？！
+Take it easy! 作">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 2955721,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://luckyandyzhang.github.io/2017/05/31/trap-of-android-aidl/"/>
+
+  <title> 一场由Parcelable引发的血案 | Andy's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Andy's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                一场由Parcelable引发的血案
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-05-31T16:57:20+08:00" content="2017-05-31">
+              2017-05-31
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/05/31/trap-of-android-aidl/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/05/31/trap-of-android-aidl/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="问题背景">问题背景</h2><p>前阵子接手了直播模块，有个需求需要在已有的AIDL接口中增加多一个int类型的参数B。由于该AIDL接口中已经有了一个自定义类型的参数A(已经实现Parcelable接口)，我便将参数B追加到A的后面。嗯，炒鸡简单的，只是运行之后有问题而已(微笑脸) </p>
+<p>有一个诡异的问题：<b>无论B传入什么值，另一方接收到都始终为0(int的默认值)，而A接收到的值却是正确的？！</b></p>
+<p>Take it easy! 作为共产主义的接班人，我当然是有办法的啦：</p>
+<ol>
+<li>怀疑是 <a href="https://github.com/alibaba/freeline" target="_blank" rel="external">Freeline</a> 不支持AIDL，改用AS重新build，问题依旧</li>
+<li>怀疑是辣鸡AS的问题，重新启动再build，问题依旧</li>
+<li>怀疑是工具链的版本问题，改为最新版本再次编译，问题依旧</li>
+<li>怀疑是int的问题？将B改为float, boolean等其他的基本类型，问题依旧，取到的始终是默认值</li>
+<li>抱着希望在StackOverflow和Google上逛了一圈，无果</li>
+<li>求助群里的小伙伴，答曰没有遇到过此情况，并向我丢了一连窜的「233333」和一波表情  </li>
+<li><del>辞职</del></li>
+</ol>
+<p>就在我一筹莫展的时候，突然脑子一抽，试着把接口定义中A参数和B参数位置调换。震惊地发现，居然可以了！！ </p>
+<a id="more"></a>
+<p><del>嗯，此篇文章完结，撒花~<del></del></del></p>
+<h2 id="解决方案">解决方案</h2><p>将基本类型的参数放在自定义类型的参数前面，虽然解决了问题，但是治标不治本，只能算个workaround。  </p>
+<p>不知道大家有没有发现：参数的定义顺序会影响结果这一行为，是不是跟实现Parcelable接口的时候有点类似？Parcelable中如果read的顺序和write的顺序不同的话，产生的结果也不同。  </p>
+<p>基于这点，我们怀疑问题出在自定义类型的参数A，先来看下相关代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ILivePlayerService.aidl</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">ILivePlayerService</span> </span>&#123;</span><br><span class="line">	<span class="comment">//参数A：config, 参数B：type</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">setPlayerConfig</span><span class="params">(in PlayerConfig config, <span class="keyword">int</span> type)</span></span><br><span class="line">&#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//PlayerConfig.java</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PlayerConfig</span> <span class="keyword">implements</span> <span class="title">Parcelable</span> </span>&#123;</span><br><span class="line">    <span class="comment">//省略其他代码....</span></span><br><span class="line">    String streamUrl;</span><br><span class="line">    <span class="keyword">int</span> roomId;</span><br><span class="line">    <span class="keyword">int</span> anchorId;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PlayerConfig</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="title">PlayerConfig</span><span class="params">(Parcel in)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//省略其他代码....</span></span><br><span class="line">        <span class="keyword">this</span>.streamUrl = in.readString();</span><br><span class="line">        <span class="keyword">this</span>.roomId = in.readInt();</span><br><span class="line">        <span class="keyword">this</span>.anchorId = in.readInt();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">writeToParcel</span><span class="params">(Parcel dest, <span class="keyword">int</span> flags)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//省略其他代码....</span></span><br><span class="line">        dest.writeString(<span class="keyword">this</span>.streamUrl);</span><br><span class="line">        dest.writeInt(<span class="keyword">this</span>.roomId);</span><br><span class="line">        <span class="comment">//下面注释的这句，代码中是没有的。问题就出现在这里..</span></span><br><span class="line">        <span class="comment">//dest.writeInt(this.anchorId);</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">describeContents</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Creator&lt;PlayerConfig&gt; CREATOR = <span class="keyword">new</span> Creator&lt;PlayerConfig&gt;() &#123;</span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> PlayerConfig <span class="title">createFromParcel</span><span class="params">(Parcel source)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> PlayerConfig(source);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">        <span class="keyword">public</span> PlayerConfig[] newArray(<span class="keyword">int</span> size) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> PlayerConfig[size];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>果然，<code>PlayerConfig</code>没有正确地实现 Parcelable 接口，在写入的时候（详见上面代码中<code>writeToParcel</code>方法中的注释）漏掉了变量<code>anchorId</code>，而读取的时候却有。</p>
+<blockquote>
+<p>论接手别人的代码是一种怎样的体验？  </p>
+</blockquote>
+<p>我们先把<code>writeToParcel</code>中漏掉的变量补上，再跑一下看问题是否解决了。</p>
+<p>不出所料，那个诡异的问题没有了，可是为什么呢？我们来看下AIDL生成的Java代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//AIDL生成的 ILivePlayerService.java </span></span><br><span class="line"><span class="comment">//为了方便查看，格式了一下代码</span></span><br><span class="line"></span><br><span class="line"><span class="annotation">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTransact</span><span class="params">(<span class="keyword">int</span> code, android.os.Parcel data, android.os.Parcel reply, <span class="keyword">int</span> flags)</span> <span class="keyword">throws</span> android.os.RemoteException </span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> (code) &#123;</span><br><span class="line">        <span class="keyword">case</span> INTERFACE_TRANSACTION: &#123;</span><br><span class="line">            reply.writeString(DESCRIPTOR);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//setPlayerConfig方法</span></span><br><span class="line">        <span class="keyword">case</span> TRANSACTION_setPlayerConfig: &#123;</span><br><span class="line">            data.enforceInterface(DESCRIPTOR);</span><br><span class="line">            <span class="comment">//参数A：config</span></span><br><span class="line">            com.kk.sleep.liveroom.model.PlayerConfig _arg0;</span><br><span class="line">            <span class="keyword">if</span> ((<span class="number">0</span> != data.readInt())) &#123;</span><br><span class="line">            	<span class="comment">//在解析的时候，会调用PlayerConfig的createFromParcel方法</span></span><br><span class="line">                _arg0 = com.kk.sleep.liveroom.model.PlayerConfig.CREATOR.createFromParcel(data);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                _arg0 = <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//参数B：type</span></span><br><span class="line">            <span class="keyword">int</span> _arg1;</span><br><span class="line">            _arg1 = data.readInt();</span><br><span class="line">            <span class="keyword">this</span>.setPlayerConfig(_arg0, _arg1);</span><br><span class="line">            reply.writeNoException();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.onTransact(code, data, reply, flags);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以看到在解析数据的时候，<b>参数A和参数B都是从data中解析的(共用一个Parcel源)  </b> 其中，解析参数A <code>config</code>的时候会将<code>data</code>传入到自己实现的<code>createFromParcel</code>方法中进行处理，如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//PlayerConfig.java 部分代码</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Creator&lt;PlayerConfig&gt; CREATOR = <span class="keyword">new</span> Creator&lt;PlayerConfig&gt;() &#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> PlayerConfig <span class="title">createFromParcel</span><span class="params">(Parcel source)</span> </span>&#123;</span><br><span class="line">    	<span class="comment">//接受到aidl传入的data</span></span><br><span class="line">    	<span class="keyword">return</span> <span class="keyword">new</span> PlayerConfig(source);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">        </span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="title">PlayerConfig</span><span class="params">(Parcel in)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//aidl传入的data在这里解析</span></span><br><span class="line">	<span class="keyword">this</span>.streamUrl = in.readString();</span><br><span class="line">	<span class="keyword">this</span>.roomId = in.readInt();</span><br><span class="line">	<span class="keyword">this</span>.anchorId = in.readInt();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="annotation">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">writeToParcel</span><span class="params">(Parcel dest, <span class="keyword">int</span> flags)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//省略其他代码....</span></span><br><span class="line">	dest.writeString(<span class="keyword">this</span>.streamUrl);</span><br><span class="line">	dest.writeInt(<span class="keyword">this</span>.roomId);</span><br><span class="line">	<span class="comment">//下面注释的这句，代码中是没有的。问题就出现在这里..</span></span><br><span class="line">	<span class="comment">//dest.writeInt(this.anchorId);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于<code>PlayerConfig</code>没有正确地实现<code>Parcelable</code>，只写入了1个int类型，但是却读取了2个，这就导致了参数A多读取了一个int… 等到参数B想从<code>data</code>中读取的时候，就会读取不到数值(返回默认值)…   </p>
+<p>这个涉及到了Parcel的内部机制，可以参考这篇文章</p>
+<blockquote>
+<p><a href="http://blog.csdn.net/qinjuning/article/details/6785517" target="_blank" rel="external">http://blog.csdn.net/qinjuning/article/details/6785517</a></p>
+</blockquote>
+<h2 id="小结">小结</h2><p>这次的坑是因为没有正确实现Parcelable接口导致的。这很不应该，其实我们可以让工具来做这种体力活，比如AS中有个插件叫做「Android Parcelable code generator」就可以一键生成Parcelable代码，或者去Github搜搜Parcelable相关的注解库也行~ </p>
+<p>程序猿要对自己好点，能用工具完成的事情尽量不要自己写~</p>
+<p>踩坑结束！  </p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/AIDL/" rel="tag">#AIDL</a>
+          
+            <a href="/tags/开发中的坑/" rel="tag">#开发中的坑</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/07/android-notes-1/" rel="next" title="Token的过期处理以及不同API环境的切换技巧">
+                <i class="fa fa-chevron-left"></i> Token的过期处理以及不同API环境的切换技巧
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/05/31/trap-of-android-aidl/"
+           data-title="一场由Parcelable引发的血案" data-url="http://luckyandyzhang.github.io/2017/05/31/trap-of-android-aidl/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Andy Zhang" />
+          <p class="site-author-name" itemprop="name">Andy Zhang</p>
+          <p class="site-description motion-element" itemprop="description">来嘛，来玩嘛~</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/luckyandyzhang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/ymkoko" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题背景"><span class="nav-number">1.</span> <span class="nav-text">问题背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决方案"><span class="nav-number">2.</span> <span class="nav-text">解决方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">3.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Andy Zhang</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"luckyandyzhang"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
