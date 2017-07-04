@@ -92,7 +92,7 @@
 <meta property="og:site_name" content="Andy's Blog">
 <meta property="og:description" content="问题背景Retrofit大家都不陌生，一般情况下，我们都会在组件(Actvity, Fragment)生命周期结束的时候去cancel掉网络请求。这样做当然无可厚非，但是有一点麻烦的是，要定义一个变量来引用这个Call，网络请求少的情况下还好，假如一个类中有很多Call时候呢？单是要给Call命名都让我头大了…
 解决思路可能最容易想到的就是：在Activity中定义一个集合来保存所有的Call，在">
-<meta property="og:updated_time" content="2017-07-04T09:14:36.000Z">
+<meta property="og:updated_time" content="2017-07-04T09:27:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何优雅地管理Retrofit请求的生命周期">
 <meta name="twitter:description" content="问题背景Retrofit大家都不陌生，一般情况下，我们都会在组件(Actvity, Fragment)生命周期结束的时候去cancel掉网络请求。这样做当然无可厚非，但是有一点麻烦的是，要定义一个变量来引用这个Call，网络请求少的情况下还好，假如一个类中有很多Call时候呢？单是要给Call命名都让我头大了…
@@ -298,6 +298,7 @@
 <p>额…怎么说呢，这样确实能解决上面所提到的缺陷，只不过这样的调用方式与开发者原来的习惯不同，看起来很别扭。</p>
 </blockquote>
 <p><b>OK，我们还是直接步入正轨吧…</b></p>
+<a id="more"></a>
 <p>其实我们想做的就是在Call请求执行前，将其加入到集合中，但是又不想打破原有的调用习惯。那为何不试试代理模式呢？</p>
 <p>假设有接口 <code>UserAPI.java</code> 如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserAPI</span> </span>&#123;</span><br><span class="line">    <span class="annotation">@GET</span>(<span class="string">"v1/user/fan"</span>)</span><br><span class="line">    <span class="function">Call&lt;ResponseBody&gt; <span class="title">getFanList</span><span class="params">(@Query(<span class="string">"page_index"</span>)</span> <span class="keyword">int</span> pageIndex, @<span class="title">Query</span><span class="params">(<span class="string">"page_size"</span>)</span> <span class="keyword">int</span> pageSize)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@GET</span>(<span class="string">"v1/user/focus"</span>)</span><br><span class="line">    <span class="function">Call&lt;ResponseBody&gt; <span class="title">getFocusList</span><span class="params">(@Query(<span class="string">"page_index"</span>)</span> <span class="keyword">int</span> pageIndex, @<span class="title">Query</span><span class="params">(<span class="string">"page_size"</span>)</span> <span class="keyword">int</span> pageSize)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
